@@ -7,10 +7,17 @@ public class Bricks : MonoBehaviour
     public int hits = 1;
     public int points = 10;
     public Vector3 rotator;
+    public Material hitMaterial;
+
+    Material _orgMaterial;
+    Renderer _renderer;
     // Start is called before the first frame update
     void Start()
     {
         //transform.Rotate(rotator * (transform.position.x + transform.position.y));
+        _renderer = GetComponent<Renderer>();
+        _orgMaterial = _renderer.sharedMaterial;
+
     }
 
     // Update is called once per frame
@@ -26,5 +33,12 @@ public class Bricks : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        _renderer.sharedMaterial = hitMaterial;
+        Invoke("RestoreMaterial", 0.5f);
+    }
+
+    void RestoreMaterial()
+    {
+        _renderer.sharedMaterial = _orgMaterial;
     }
 }
